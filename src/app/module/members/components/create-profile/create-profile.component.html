@@ -1,0 +1,280 @@
+<!-- Title group  -->
+<mat-toolbar>
+    <span>Create Member Profile</span>
+    <div class="example-action-buttons">
+        <button mat-button (click)="toggleAccordionPanel(accordionAction)">{{accordionAction}}</button>
+    </div>
+</mat-toolbar>
+<app-member-search></app-member-search>
+<!-- Form -->
+<form class="my-form" [formGroup]="memberForm" (ngSubmit)="submitMemberForm()" #resetMemberForm="ngForm" novalidate>
+    <mat-accordion class="example-headers-align" multi>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    General
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <mat-label class="my-label">Member Name:</mat-label><br />
+            <mat-form-field appearance="outline">
+                <input matInput type="text" placeholder="Enter member name" id="memberName"
+                    formControlName="memberName">
+                <!--<mat-error *ngIf="handleError('memberName', 'required')">
+                    Please provide a member name
+                </mat-error>-->
+            </mat-form-field><br />
+
+            <mat-label class="my-label">Status Code:</mat-label><br />
+            <mat-form-field appearance="outline">
+                <mat-select placeholder="Select" id="statusCode" formControlName="statusCode">
+                    <mat-option [value]="statusArray.name" *ngFor="let statusArray of StatusArray">{{statusArray.name}}
+                    </mat-option>
+                </mat-select>
+                <!--<mat-error *ngIf="handleError('statusCode', 'required')">
+                Please select a status code</strong>
+              </mat-error>-->
+            </mat-form-field><br />
+
+            <mat-label class="my-label">Status Type:</mat-label><br />
+            <mat-form-field appearance="outline">
+                <mat-select placeholder="Select" id="statusCode" formControlName="statusType">
+                    <mat-option [value]="statusArray.name" *ngFor="let statusArray of StatusArray">{{statusArray.name}}
+                    </mat-option>
+                </mat-select>
+                <!--<mat-error *ngIf="handleError('statusType', 'required')">
+                Please select a status type</strong>
+              </mat-error>-->
+            </mat-form-field><br />
+
+            <mat-label class="my-label">Initial Stock Purchase Required:</mat-label><br />
+            <mat-form-field>
+                <input matInput id="initialStockPurchaseRequired" formControlName="initialStockPurchaseRequired">
+            </mat-form-field><br />
+
+            <mat-label class="my-label">Initial Stock Purchase Date:</mat-label><br />
+            <mat-form-field>
+                <input matInput id="initalStockPurchaseDate" formControlName="initalStockPurchaseDate">
+            </mat-form-field><br />
+
+            <mat-label class="my-label">Voting State:</mat-label><br />
+            <mat-form-field>
+                <input matInput id="votingState" formControlName="votingState">
+            </mat-form-field><br />
+
+            <mat-label class="my-label">Member DDA Account:</mat-label><br />
+            <mat-form-field>
+                <input matInput id="memberDdaAccount" formControlName="memberDdaAccount">
+            </mat-form-field><br />
+
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Stock Asset
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <mat-label class="my-label">Capital Stock Asset:</mat-label><br />
+            <mat-form-field appearance="outline">
+                <input matInput mask="separator.2" prefix="$" thousandSeparator="," separatorLimit="1000000000"
+                    placeholder="0.00" id="capitalStockAsset" formControlName="capitalStockAsset">
+                <!--<mat-error *ngIf="handleError('capitalStockAsset', 'required')">
+                  Please provide capital stock asset
+                </mat-error>-->
+            </mat-form-field><br />
+
+            <mat-label class="my-label">Capital Stock Asset Date:</mat-label><br />
+            <mat-form-field appearance="outline">
+                <input matInput readonly [matDatepicker]="capitalStockDatePicker" id="capitalStockAssetDate"
+                    placeholder="mm/dd/yyyy" formControlName="capitalStockAssetDate"
+                    (dateChange)="formatDate('capitalStockAssetDate', $event)">
+                <mat-datepicker-toggle matSuffix [for]="capitalStockDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #capitalStockDatePicker></mat-datepicker>
+                <!--<mat-error *ngIf="handleError('capitalStockAssetDate', 'required')">
+                  Capital stock asset date is required
+                </mat-error>-->
+            </mat-form-field><br />
+
+            <mat-label class="my-label">Pending Stock Asset:</mat-label><br />
+            <mat-form-field appearance="outline">
+                <input matInput mask="separator.2" prefix="$" thousandSeparator="," separatorLimit="1000000000"
+                    placeholder="0.00" id="pendingStockAsset" formControlName="pendingStockAsset">
+                <!--<mat-error *ngIf="handleError('pendingStockAsset', 'required')">
+                  Please provide pending stock asset
+                </mat-error>-->
+            </mat-form-field><br />
+
+            <mat-label class="my-label">Pending Stock Asset Date:</mat-label><br />
+            <mat-form-field appearance="outline">
+                <input matInput readonly [matDatepicker]="pendingStockDatePicker" id="pendingStockAssetDate"
+                    placeholder="mm/dd/yyyy" formControlName="pendingStockAssetDate"
+                    (dateChange)="formatDate('pendingStockAssetDate', $event)">
+                <mat-datepicker-toggle matSuffix [for]="pendingStockDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #pendingStockDatePicker></mat-datepicker>
+                <!--<mat-error *ngIf="handleError('pendingStockAssetDate', 'required')">
+                  Pending stock asset date is required
+                </mat-error>-->
+            </mat-form-field><br />
+
+            <mat-label class="my-label">Member Stock Asset Date:</mat-label><br />
+            <mat-form-field appearance="outline">
+                <input matInput readonly [matDatepicker]="memberStockDatePicker" id="memberStockAssetDate"
+                    placeholder="mm/dd/yyyy" formControlName="memberStockAssetDate"
+                    (dateChange)="formatDate('memberStockAssetDate', $event)">
+                <mat-datepicker-toggle matSuffix [for]="memberStockDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #memberStockDatePicker></mat-datepicker>
+                <!--<mat-error *ngIf="handleError('memberStockAssetDate', 'required')">
+                  Member stock asset date is required
+                </mat-error>-->
+            </mat-form-field><br />
+
+            <mat-label class="my-label">Membership Stock Maximum Requirement:</mat-label><br />
+            <mat-form-field appearance="outline">
+                <mat-select placeholder="Select" id="memberStockMaxRequirement"
+                    formControlName="memberStockMaxRequirement">
+                    <mat-option [value]="statusArray.name" *ngFor="let statusArray of StatusArray">{{statusArray.name}}
+                    </mat-option>
+                </mat-select>
+                <!--<mat-error *ngIf="handleError('memberStockMaxRequirement', 'required')">
+                Please select a Membership stock maximum requirement</strong>
+              </mat-error>-->
+            </mat-form-field><br />
+
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Mandatory Redeemable Classified Stock (MRCS)
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <mat-label class="my-label">MRCS (Mandatory Redeemable Classified Stock):</mat-label><br />
+            <mat-form-field appearance="outline">
+                <mat-select placeholder="Select" id="mrcs" formControlName="mrcs">
+                    <mat-option [value]="statusArray.name" *ngFor="let statusArray of StatusArray">{{statusArray.name}}
+                    </mat-option>
+                </mat-select>
+                <!--<mat-error *ngIf="handleError('mrcs', 'required')">
+                Please select a Membership stock maximum requirement</strong>
+              </mat-error>-->
+            </mat-form-field><br />
+
+            <mat-label class="my-label">MRCS Input Date:</mat-label><br />
+            <mat-form-field appearance="outline">
+                <input matInput readonly [matDatepicker]="mrcsInputDatePicker" id="mrcsInputDate"
+                    placeholder="mm/dd/yyyy" formControlName="mrcsInputDate"
+                    (dateChange)="formatDate('mrcsInputDate', $event)">
+                <mat-datepicker-toggle matSuffix [for]="mrcsInputDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #mrcsInputDatePicker></mat-datepicker>
+                <!--<mat-error *ngIf="handleError('mrcsInputDate', 'required')">
+                  Member stock asset date is required
+                </mat-error>-->
+            </mat-form-field><br />
+
+            <mat-label class="my-label">MRCS Redemption Date:</mat-label><br />
+            <mat-form-field appearance="outline">
+                <input matInput readonly [matDatepicker]="mrcsRedemptionDatePicker" id="mrcsRedemptionDate"
+                    placeholder="mm/dd/yyyy" formControlName="mrcsRedemptionDate"
+                    (dateChange)="formatDate('mrcsRedemptionDate', $event)">
+                <mat-datepicker-toggle matSuffix [for]="mrcsRedemptionDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #mrcsRedemptionDatePicker></mat-datepicker>
+                <!--<mat-error *ngIf="handleError('mrcsRedemptionDate', 'required')">
+                  Member stock asset date is required
+                </mat-error>-->
+            </mat-form-field><br />
+
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Member Director
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <mat-label class="my-label">Member Director First Name:</mat-label><br />
+            <mat-form-field appearance="outline">
+                <input matInput type="text" placeholder="Enter First Name" id="memberDirectorFirstName"
+                    formControlName="memberDirectorFirstName">
+                <!--<mat-error *ngIf="handleError('memberDirectorFirstName', 'required')">
+                    Please provide a member director first name
+                </mat-error>-->
+            </mat-form-field><br />
+
+            <mat-label class="my-label">Member Director Last Name:</mat-label><br />
+            <mat-form-field appearance="outline">
+                <input matInput type="text" placeholder="Enter Last Name" id="memberDirectorLastName"
+                    formControlName="memberDirectorLastName">
+                <!--<mat-error *ngIf="handleError('memberDirectorLastName', 'required')">
+                    Please provide a member director last name
+                </mat-error>-->
+            </mat-form-field><br />
+
+            <mat-label class="my-label">Member Director Affiliation Title:</mat-label><br />
+            <mat-form-field appearance="outline">
+                <input matInput type="text" placeholder="Enter Title" id="memberDirectorTitle"
+                    formControlName="memberDirectorTitle">
+                <!--<mat-error *ngIf="handleError('memberDirectorTitle', 'required')">
+                    Please provide a member director affiliation title
+                </mat-error>-->
+            </mat-form-field><br />
+
+            <mat-label class="my-label">Member Director Affiliation Term Start:</mat-label><br />
+            <mat-form-field appearance="outline">
+                <input matInput readonly [matDatepicker]="memberDirectorStartDatePicker" id="memberDirectorStartDate"
+                    placeholder="mm/dd/yyyy" formControlName="memberDirectorStartDate"
+                    (dateChange)="formatDate('memberDirectorStartDate', $event)">
+                <mat-datepicker-toggle matSuffix [for]="memberDirectorStartDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #memberDirectorStartDatePicker></mat-datepicker>
+                <!--<mat-error *ngIf="handleError('memberDirectorStartDate', 'required')">
+                  Member stock asset date is required
+                </mat-error>-->
+            </mat-form-field><br />
+
+            <mat-label class="my-label">Member Director Affiliation Term End:</mat-label><br />
+            <mat-form-field appearance="outline">
+                <input matInput readonly [matDatepicker]="memberDirectorEndDatePicker" id="memberDirectorEndDate"
+                    placeholder="mm/dd/yyyy" formControlName="memberDirectorEndDate"
+                    (dateChange)="formatDate('memberDirectorEndDate', $event)">
+                <mat-datepicker-toggle matSuffix [for]="memberDirectorEndDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #memberDirectorEndDatePicker></mat-datepicker>
+                <!--<mat-error *ngIf="handleError('memberDirectorEndDate', 'required')">
+                  Member stock asset date is required
+                </mat-error>-->
+            </mat-form-field><br />
+
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Merger Information
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <mat-label class="my-label">Disappearing Member Number:</mat-label><br />
+            <mat-form-field>
+                <input matInput id="disappearingMemberNumber" formControlName="disappearingMemberNumber">
+            </mat-form-field><br />
+
+            <mat-label class="my-label">Surviving Member Number:</mat-label><br />
+            <mat-form-field>
+                <input matInput id="survivingMemberNUmber" formControlName="survivingMemberNUmber">
+            </mat-form-field><br />
+
+            <mat-label class="my-label">Member to Member Merger Date:</mat-label><br />
+            <mat-form-field>
+                <input matInput id="memberToMemberMergeDate" formControlName="memberToMemberMergeDate">
+            </mat-form-field><br />
+        </mat-expansion-panel>
+    </mat-accordion>
+
+    <mat-card-actions>
+        <button class="actionBtn" mat-flat-button><span>Save</span></button>
+        <span class="button-spacer"></span>
+        <button class="cancelBtn" mat-flat-button (click)="this.resetForm.reset()"><span>Cancel</span></button>
+    </mat-card-actions>
+</form>
