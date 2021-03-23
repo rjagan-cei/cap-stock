@@ -16,3 +16,9 @@
 .mat-card-actions .cancelBtn span {
     color: #BCB6B0;
 }
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline, .mat-form-field-appearance-outline.mat-form-field-invalid .mat-form-field-outline {
+    background-color: antiquewhite;
+}
+.mat-form-field-appearance-outline .mat-form-field-outline {
+    background-color: antiquewhite;
+}
